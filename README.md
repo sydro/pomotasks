@@ -1,4 +1,5 @@
 # pomotasks
+
 Task management with pomodoro feature in React Native
 
 This app was created by [create-react-native-app](https://github.com/react-community/create-react-native-app)
@@ -9,7 +10,7 @@ This app was created by [create-react-native-app](https://github.com/react-commu
 npm i
 ```
 
-## Start 
+## Start
 
 ```
 expo start
@@ -25,6 +26,13 @@ expo build:android
 
 To download builded app, visit this page [https://expo.io/@sydro/pomotasks/builds](https://expo.io/@sydro/pomotasks/builds)
 
+## Screenshots
+
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen1.jpeg =220x390)
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen2.jpeg =220x390)
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen3.jpeg =220x390)
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen4.jpeg =220x390)
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen5.jpeg =220x390)
 
 ## References
 
