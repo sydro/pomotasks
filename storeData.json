@@ -1,0 +1,25 @@
+{
+  categories: [
+    {
+      name: 'Alca',
+      key: 'sadsa934e2q',
+      tasks: [
+        {
+          name: 'Fare qualcosa',
+          key: 'ssgdsla934e2q',
+        },
+        { name: 'Fare altre cose', key: '0w0320sdk' },
+      ],
+    },
+    {
+      key: 'sdada',
+      name: 'Arteteca',
+      tasks: [
+        {
+          name: 'Fare qualcosa',
+          key: 'jerfdsma',
+        },
+      ],
+    },
+  ]
+}
