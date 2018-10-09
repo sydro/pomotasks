@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Fab, Icon } from 'native-base'
 import { connect } from 'react-redux'
-import { addTask, delTask } from '../actions'
+import { addTask, delTask, setActiveTask } from '../actions'
 import ItemTask from './ItemTask'
 import AddTask from './AddItem'
 import { uuid } from '../utils/functions'
@@ -38,7 +38,7 @@ class Category extends React.Component {
 
   handleSaveTask(event) {
     this.handleNewTask()
-    this.props.addTask(this.props.category, { name: event.nativeEvent.text, key: uuid })
+    this.props.addTask(this.props.category, { name: event.nativeEvent.text, key: uuid() })
   }
 
   handleRemoveTask(value) {
@@ -47,6 +47,7 @@ class Category extends React.Component {
 
   handleNavigateTask(task) {
     const { navigate } = this.props.navigation
+    this.props.setActiveTask(task)
     navigate('Task', { task })
   }
 
@@ -79,5 +80,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addTask, delTask }
+  { addTask, delTask, setActiveTask }
 )(Category)

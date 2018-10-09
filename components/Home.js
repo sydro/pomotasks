@@ -45,7 +45,7 @@ class HomeScreen extends React.Component {
 
   handleSaveCat(event) {
     this.handlePressNewCat()
-    this.props.addCategory(this.props.data, { name: event.nativeEvent.text, key: uuid, tasks: [] })
+    this.props.addCategory(this.props.data, { name: event.nativeEvent.text, key: uuid(), tasks: [] })
   }
 
   handleRemoveCat(value) {
@@ -54,7 +54,7 @@ class HomeScreen extends React.Component {
 
   handleNavigateCat(cat) {
     const { navigate } = this.props.navigation
-    this.props.setActiveDirectory(cat)
+    this.props.setActiveCategory(cat)
     navigate('Category', { cat })
   }
 

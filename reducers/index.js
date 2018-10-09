@@ -3,7 +3,16 @@ import { NavigationActions } from 'react-navigation'
 import { RootNavigator } from '../navigators/AppNavigator'
 import { AsyncStorage } from 'react-native'
 
-import { DATA_AVAILABLE, ADD_CATEGORY, DEL_CATEGORY, ADD_TASK, DEL_TASK, SET_ACTIVE_CATEGORY } from '../actions/'
+import {
+  DATA_AVAILABLE,
+  ADD_CATEGORY,
+  DEL_CATEGORY,
+  ADD_TASK,
+  DEL_TASK,
+  SET_ACTIVE_CATEGORY,
+  SET_ACTIVE_TASK,
+  ADD_SESSION,
+} from '../actions/'
 
 let dataState = { data: [], loading: true }
 
@@ -17,8 +26,12 @@ const dataReducer = (state = dataState, action) => {
     case SET_ACTIVE_CATEGORY:
       state = Object.assign({}, state, { active_category: action.payload, loading: false })
       return state
+    case SET_ACTIVE_TASK:
+      state = Object.assign({}, state, { active_task: action.payload, loading: false })
+      return state
     case ADD_TASK:
     case DEL_TASK:
+    case ADD_SESSION:
       const categories = state.data.categories.map(cat => {
         if (cat.key === action.payload.key) return action.payload
         else return cat

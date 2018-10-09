@@ -1,12 +1,12 @@
 import React from 'react'
 import { Container, Header, Content, List, ListItem, Text, Left, Right } from 'native-base'
-import { returnDuration } from '../utils/functions'
+import { returnDuration, formatDate } from '../utils/functions'
 
 function calculateTotal(items) {
   let total = 0
-  //for (let item of items) {
-  //console.log(item)
-  //}
+  items.map(el => {
+    total = total + el.duration
+  })
   return '' + returnDuration(total)
 }
 
@@ -20,10 +20,17 @@ export default class SessionsList extends React.PureComponent {
     const start = item.start
     const stop = item.stop
     const duration = returnDuration(item.duration)
-    return start + ' ' + stop + ' ' + duration
+    return formatDate(start) + ' -- ' + formatDate(stop) + ' -- ' + duration
   }
 
   render() {
+    const sessions = this.props.sessions.map(s => {
+      return (
+        <ListItem key={s.start}>
+          <Text style={{ fontSize: 10 }}>{this.renderText(s)}</Text>
+        </ListItem>
+      )
+    })
     return (
       <Container>
         <Header style={{ height: 20, backgroundColor: 'lightgrey' }}>
@@ -31,18 +38,11 @@ export default class SessionsList extends React.PureComponent {
             <Text style={{ textAlign: 'left' }}>Sessions </Text>
           </Left>
           <Right>
-            <Text style={{ textAlign: 'right' }}>Totale: {calculateTotal(this.props.items)}</Text>
+            <Text style={{ textAlign: 'right' }}>Totale: {calculateTotal(this.props.sessions)}</Text>
           </Right>
         </Header>
         <Content>
-          <List
-            dataArray={this.props.items}
-            renderRow={item => (
-              <ListItem>
-                <Text style={{ fontSize: 10 }}>{this.renderText(item)}</Text>
-              </ListItem>
-            )}
-          />
+          <List>{sessions}</List>
         </Content>
       </Container>
     )

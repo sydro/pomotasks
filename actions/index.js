@@ -2,8 +2,10 @@ export const DATA_AVAILABLE = 'DATA_AVAILABLE'
 export const ADD_CATEGORY = 'ADD_CATEGORY'
 export const DEL_CATEGORY = 'DEL_CATEGORY'
 export const SET_ACTIVE_CATEGORY = 'SET_ACTIVE_CATEGORY'
+export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK'
 export const ADD_TASK = 'ADD_TASK'
 export const DEL_TASK = 'DEL_TASK'
+export const ADD_SESSION = 'ADD_SESSION'
 
 //Import the sample data
 //import Data from '../storeData.json'
@@ -48,12 +50,23 @@ export function delCategory(state, key) {
   }
 }
 
-export function setActiveDirectory(category) {
+export function setActiveCategory(category) {
   return dispatch => {
     dispatch({
       type: SET_ACTIVE_CATEGORY,
       payload: {
         category,
+      },
+    })
+  }
+}
+
+export function setActiveTask(task) {
+  return dispatch => {
+    dispatch({
+      type: SET_ACTIVE_TASK,
+      payload: {
+        task,
       },
     })
   }
@@ -76,6 +89,16 @@ export function delTask(category, key) {
       type: DEL_TASK,
       payload: { ...category, tasks },
     })
+  }
+}
+
+export function addSession(category, task) {
+  return dispatch => {
+    let tasks = cloneObject(category.tasks).map(t => {
+      if (t.key === task.key) return task
+      else return t
+    })
+    dispatch({ type: ADD_SESSION, payload: { ...category, tasks } })
   }
 }
 

@@ -3,6 +3,8 @@ import { View, Text, Container, Button } from 'native-base'
 import { StyleSheet } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { Col, Row, Grid } from 'react-native-easy-grid'
+import { connect } from 'react-redux'
+import { addSession, delSession } from '../actions'
 import { uuid, returnDuration } from '../utils/functions'
 import Sessions from './SessionsList'
 
@@ -16,8 +18,8 @@ const styles = StyleSheet.create({
 })
 
 class Task extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.interval = null
     this.startTimer = this.startTimer.bind(this)
     this.stopTimer = this.stopTimer.bind(this)
@@ -26,7 +28,7 @@ class Task extends React.Component {
       running: false,
       seconds: 0,
       runningSession: 0,
-      sessions: [],
+      sessions: this.props.task.sessions || [],
     }
   }
 
@@ -44,7 +46,7 @@ class Task extends React.Component {
   }
 
   startTimer() {
-    const new_key = uuid
+    const new_key = uuid()
     const new_session = { key: new_key, start: Date.now() }
     const sessions = this.state.sessions
     sessions.unshift(new_session)
@@ -61,17 +63,17 @@ class Task extends React.Component {
 
   stopTimer() {
     clearInterval(this.interval)
-    // Inserire salvataggio della sessione
     const sessions = this.state.sessions.map(el => {
       if (el.key === this.state.runningSession) {
         el.stop = Date.now()
         el.duration = this.state.seconds
-        console.log(el, this.state.runningSession)
       }
       return el
     })
 
     this.setState({ fill: 0, running: false, seconds: 0, runningSession: 0, sessions })
+    const task = this.props.task
+    this.props.addSession(this.props.category, { ...task, sessions })
   }
 
   componentDidMount() {}
@@ -124,7 +126,7 @@ class Task extends React.Component {
             </Col>
           </Row>
           <Row size={35}>
-            <Sessions items={this.state.sessions} />
+            <Sessions sessions={this.state.sessions} />
           </Row>
         </Grid>
       </Container>
@@ -132,4 +134,19 @@ class Task extends React.Component {
   }
 }
 
-export default Task
+// consoleLog = state => {
+//   console.log(state)
+//   return {}
+// }
+//
+// const mapStateToProps = state => consoleLog
+
+const mapStateToProps = state => ({
+  category: state.dataReducer.active_category.category,
+  task: state.dataReducer.active_task.task,
+})
+
+export default connect(
+  mapStateToProps,
+  { addSession, delSession }
+)(Task)
