@@ -28,11 +28,11 @@ To download builded app, visit this page [https://expo.io/@sydro/pomotasks/build
 
 ## Screenshots
 
-![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen1.jpeg =220x390)
-![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen2.jpeg =220x390)
-![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen3.jpeg =220x390)
-![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen4.jpeg =220x390)
-![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen5.jpeg =220x390)
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen1.jpeg)
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen2.jpeg)
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen3.jpeg)
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen4.jpeg)
+![](https://github.com/sydro/pomotasks/raw/master/assets/screenshots/screen5.jpeg)
 
 ## References
 
