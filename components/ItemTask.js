@@ -4,8 +4,9 @@ import { calculateTotal } from '../utils/functions'
 
 class ItemTask extends React.Component {
   render() {
+    const colorBg = this.props.task.complete ? '#ccffcc' : 'white'
     return (
-      <ListItem>
+      <ListItem style={{ backgroundColor: colorBg }}>
         <Left>
           <Button
             transparent
@@ -18,8 +19,16 @@ class ItemTask extends React.Component {
             </Text>
           </Button>
         </Left>
-        <Right>
+        <Right style={{ flexDirection: 'row' }}>
           <Button
+            transparent
+            onPress={e => {
+              this.props.onCompleteTask(this.props.task.key)
+            }}>
+            <Icon name={this.props.task.complete ? 'checkmark-circle' : 'checkmark'} />
+          </Button>
+          <Button
+            style={{ right: 10 }}
             transparent
             onPress={e => {
               this.props.onRemoveTask(this.props.task.key)

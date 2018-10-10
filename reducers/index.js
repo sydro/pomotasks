@@ -12,6 +12,7 @@ import {
   SET_ACTIVE_CATEGORY,
   SET_ACTIVE_TASK,
   ADD_SESSION,
+  COMPLETE_TASK,
 } from '../actions/'
 
 let dataState = { data: [], loading: true }
@@ -31,6 +32,7 @@ const dataReducer = (state = dataState, action) => {
       return state
     case ADD_TASK:
     case DEL_TASK:
+    case COMPLETE_TASK:
     case ADD_SESSION:
       const categories = state.data.categories.map(cat => {
         if (cat.key === action.payload.key) return action.payload

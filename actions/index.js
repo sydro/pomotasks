@@ -6,6 +6,7 @@ export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK'
 export const ADD_TASK = 'ADD_TASK'
 export const DEL_TASK = 'DEL_TASK'
 export const ADD_SESSION = 'ADD_SESSION'
+export const COMPLETE_TASK = 'COMPLETE_TASK'
 
 //Import the sample data
 //import Data from '../storeData.json'
@@ -87,6 +88,21 @@ export function delTask(category, key) {
   return dispatch => {
     dispatch({
       type: DEL_TASK,
+      payload: { ...category, tasks },
+    })
+  }
+}
+
+export function completeTask(category, key) {
+  let tasks = category.tasks.filter(el => {
+    if (el.key === key) {
+      el.complete = !el.complete
+    }
+    return el
+  })
+  return dispatch => {
+    dispatch({
+      type: COMPLETE_TASK,
       payload: { ...category, tasks },
     })
   }

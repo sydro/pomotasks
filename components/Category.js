@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Fab, Icon } from 'native-base'
 import { connect } from 'react-redux'
-import { addTask, delTask, setActiveTask } from '../actions'
+import { addTask, delTask, setActiveTask, completeTask } from '../actions'
 import ItemTask from './ItemTask'
 import AddTask from './AddItem'
 import { uuid } from '../utils/functions'
@@ -13,6 +13,7 @@ class Category extends React.Component {
     this.handleSaveTask = this.handleSaveTask.bind(this)
     this.handleRemoveTask = this.handleRemoveTask.bind(this)
     this.handleNavigateTask = this.handleNavigateTask.bind(this)
+    this.handleCompleteTask = this.handleCompleteTask.bind(this)
     this.state = {
       new_task: false,
     }
@@ -45,6 +46,10 @@ class Category extends React.Component {
     this.props.delTask(this.props.category, value)
   }
 
+  handleCompleteTask(value) {
+    this.props.completeTask(this.props.category, value)
+  }
+
   handleNavigateTask(task) {
     const { navigate } = this.props.navigation
     this.props.setActiveTask(task)
@@ -53,7 +58,15 @@ class Category extends React.Component {
 
   render() {
     const itemsTask = this.props.category.tasks.map(t => {
-      return <ItemTask key={t.key} task={t} onRemoveTask={this.handleRemoveTask} onNavigate={this.handleNavigateTask} />
+      return (
+        <ItemTask
+          key={t.key}
+          task={t}
+          onRemoveTask={this.handleRemoveTask}
+          onCompleteTask={this.handleCompleteTask}
+          onNavigate={this.handleNavigateTask}
+        />
+      )
     })
     return (
       <Container>
@@ -80,5 +93,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addTask, delTask, setActiveTask }
+  { addTask, delTask, setActiveTask, completeTask }
 )(Category)
