@@ -1,15 +1,33 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation'
-import { Container, Fab, Icon } from 'native-base'
+import { Container, Fab, Icon, Text, Body, Content, Header, Left, Right, Title, Button } from 'native-base'
 import { ActivityIndicator, View, StyleSheet, AsyncStorage } from 'react-native'
 import Expo from 'expo'
 import ItemCategory from './ItemCategory'
 import AddCategory from './AddItem'
+import About from './About'
 import { uuid } from '../utils/functions'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as Actions from '../actions'
+
+class HomeTitle extends React.Component {
+  render() {
+    return (
+      <Header style={{ minWidth: '100%' }}>
+        <Left>
+          <Title style={{ left: 10 }}>{this.props.title}</Title>
+        </Left>
+        <Right>
+          <Button transparent onPress={this.props.onPressInfo}>
+            <Icon name="md-information-circle" />
+          </Button>
+        </Right>
+      </Header>
+    )
+  }
+}
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -19,23 +37,48 @@ class HomeScreen extends React.Component {
     this.handleSaveCat = this.handleSaveCat.bind(this)
     this.handleRemoveCat = this.handleRemoveCat.bind(this)
     this.handleNavigateCat = this.handleNavigateCat.bind(this)
+    this.enableAbout = this.enableAbout.bind(this)
+    this.generateNavigationOptions = this.generateNavigationOptions.bind(this)
     this.navigate = props.navigation.navigate
-    this.state = {}
+    this.state = {
+      about: false,
+    }
   }
 
   componentDidMount() {
     this.props.getData() //call our action
+    this.props.navigation.setParams({ onPressInfo: this.enableAbout })
   }
 
-  static navigationOptions = {
-    title: 'PomoTasks',
-    headerStyle: {
-      backgroundColor: '#6b52ae',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
+  generateNavigationOptions() {
+    return {
+      headerTitle: <HomeTitle title="PomoTasks" onPressInfo={this.enableAbout} />,
+      headerStyle: {
+        backgroundColor: '#6b52ae',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
+  }
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: <HomeTitle title="PomoTasks" onPressInfo={navigation.getParam('onPressInfo', null)} />,
+      headerStyle: {
+        backgroundColor: '#6b52ae',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
+  }
+
+  enableAbout() {
+    const about = !this.state.about
+    this.setState({ about })
   }
 
   handlePressNewCat() {
@@ -58,14 +101,6 @@ class HomeScreen extends React.Component {
     navigate('Category', { cat })
   }
 
-  async componentWillMount() {
-    await Expo.Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-    })
-    this.setState({ isReady: true })
-  }
-
   renderCategories() {
     return this.props.data.categories.map(cat => {
       return (
@@ -82,8 +117,8 @@ class HomeScreen extends React.Component {
         </View>
       )
     } else {
-      if (this.state.isReady) {
-        const categories = this.renderCategories()
+      const categories = this.renderCategories()
+      if (!this.state.about) {
         return (
           <Container>
             {this.state.new_cat && <AddCategory onSave={this.handleSaveCat} onReturnBack={this.handlePressNewCat} />}
@@ -94,7 +129,7 @@ class HomeScreen extends React.Component {
           </Container>
         )
       } else {
-        return null
+        return <About />
       }
     }
   }
