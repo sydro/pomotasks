@@ -1,5 +1,6 @@
 import React from 'react'
 import { Icon, CheckBox, ListItem, Text, Left, Right, Input, Button } from 'native-base'
+import { calculateTotal } from '../utils/functions'
 
 class ItemTask extends React.Component {
   render() {
@@ -12,6 +13,9 @@ class ItemTask extends React.Component {
               this.props.onNavigate(this.props.task)
             }}>
             <Text>{this.props.task.name}</Text>
+            <Text style={{ fontSize: 10 }} uppercase={false}>
+              {calculateTotal(this.props.task.sessions || [])}{' '}
+            </Text>
           </Button>
         </Left>
         <Right>

@@ -1,14 +1,6 @@
 import React from 'react'
 import { Container, Header, Content, List, ListItem, Text, Left, Right } from 'native-base'
-import { returnDuration, formatDate } from '../utils/functions'
-
-function calculateTotal(items) {
-  let total = 0
-  items.map(el => {
-    total = total + el.duration
-  })
-  return '' + returnDuration(total)
-}
+import { returnDuration, formatDate, calculateTotal } from '../utils/functions'
 
 export default class SessionsList extends React.PureComponent {
   constructor(props) {

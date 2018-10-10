@@ -33,3 +33,11 @@ export function formatDate(timestamp) {
     jsDate.getSeconds()
   return formattedDate
 }
+
+export function calculateTotal(items) {
+  let total = 0
+  items.map(el => {
+    total = total + el.duration
+  })
+  return '' + returnDuration(total)
+}

@@ -76,8 +76,6 @@ class Task extends React.Component {
     this.props.addSession(this.props.category, { ...task, sessions })
   }
 
-  componentDidMount() {}
-
   componentWillUnmount() {
     if (this.interval !== null) this.stopTimer()
   }
@@ -133,13 +131,6 @@ class Task extends React.Component {
     )
   }
 }
-
-// consoleLog = state => {
-//   console.log(state)
-//   return {}
-// }
-//
-// const mapStateToProps = state => consoleLog
 
 const mapStateToProps = state => ({
   category: state.dataReducer.active_category.category,
