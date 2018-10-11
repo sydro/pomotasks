@@ -5,7 +5,7 @@ export const SET_ACTIVE_CATEGORY = 'SET_ACTIVE_CATEGORY'
 export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK'
 export const ADD_TASK = 'ADD_TASK'
 export const DEL_TASK = 'DEL_TASK'
-export const ADD_SESSION = 'ADD_SESSION'
+export const UPD_SESSIONS = 'UPD_SESSIONS'
 export const COMPLETE_TASK = 'COMPLETE_TASK'
 
 //Import the sample data
@@ -108,13 +108,13 @@ export function completeTask(category, key) {
   }
 }
 
-export function addSession(category, task) {
+export function updSessions(category, task) {
   return dispatch => {
     let tasks = cloneObject(category.tasks).map(t => {
       if (t.key === task.key) return task
       else return t
     })
-    dispatch({ type: ADD_SESSION, payload: { ...category, tasks } })
+    dispatch({ type: UPD_SESSIONS, payload: { ...category, tasks } })
   }
 }
 

@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import { connect } from 'react-redux'
-import { addSession, delSession } from '../actions'
+import { updSessions } from '../actions'
 import { uuid, returnDuration } from '../utils/functions'
 import Sessions from './SessionsList'
 
@@ -23,6 +23,7 @@ class Task extends React.Component {
     this.interval = null
     this.startTimer = this.startTimer.bind(this)
     this.stopTimer = this.stopTimer.bind(this)
+    this.handleRemoveSession = this.handleRemoveSession.bind(this)
     this.state = {
       fill: 0,
       running: false,
@@ -62,9 +63,9 @@ class Task extends React.Component {
   }
 
   stopTimer() {
-    clearInterval(this.interval)
+    if (this.interval !== null) clearInterval(this.interval)
     const sessions = this.state.sessions.map(el => {
-      if (el.key === this.state.runningSession) {
+      if (el.key === this.state.runningSession && el.stop === undefined) {
         el.stop = Date.now()
         el.duration = this.state.seconds
       }
@@ -73,11 +74,21 @@ class Task extends React.Component {
 
     this.setState({ fill: 0, running: false, seconds: 0, runningSession: 0, sessions })
     const task = this.props.task
-    this.props.addSession(this.props.category, { ...task, sessions })
+    this.props.updSessions(this.props.category, { ...task, sessions })
+  }
+
+  handleRemoveSession(session) {
+    const sessions = this.state.sessions.filter(el => {
+      if (el.start !== session.start && el.stop !== session.stop) return el
+    })
+    this.setState({ sessions })
+    const task = this.props.task
+    this.props.updSessions(this.props.category, { ...task, sessions: [...sessions] })
   }
 
   componentWillUnmount() {
-    if (this.interval !== null) this.stopTimer()
+    this.props.navigation.getParam('refreshFn')()
+    this.stopTimer()
   }
 
   render() {
@@ -124,7 +135,7 @@ class Task extends React.Component {
             </Col>
           </Row>
           <Row size={35}>
-            <Sessions sessions={this.state.sessions} />
+            <Sessions sessions={this.state.sessions} onRemoveSession={this.handleRemoveSession} />
           </Row>
         </Grid>
       </Container>
@@ -139,5 +150,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addSession, delSession }
+  { updSessions }
 )(Task)

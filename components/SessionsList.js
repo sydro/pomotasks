@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Header, Content, List, ListItem, Text, Left, Right } from 'native-base'
+import { Container, Header, Content, List, ListItem, Text, Left, Right, Button, Icon } from 'native-base'
 import { returnDuration, formatDate, calculateTotal } from '../utils/functions'
 
 export default class SessionsList extends React.PureComponent {
@@ -19,7 +19,22 @@ export default class SessionsList extends React.PureComponent {
     const sessions = this.props.sessions.map(s => {
       return (
         <ListItem key={s.start}>
-          <Text style={{ fontSize: 10 }}>{this.renderText(s)}</Text>
+          <Left>
+            <Text style={{ fontSize: 10 }}>{this.renderText(s)}</Text>
+          </Left>
+          <Right>
+            <Button
+              small
+              iconLeft={0}
+              iconRight={0}
+              style={{ height: 10 }}
+              transparent
+              onPress={e => {
+                this.props.onRemoveSession(s)
+              }}>
+              <Icon name={'close'} />
+            </Button>
+          </Right>
         </ListItem>
       )
     })

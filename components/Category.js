@@ -19,7 +19,7 @@ class Category extends React.Component {
     this.state = {
       new_task: false,
       taskItems: null,
-      tab: null,
+      tab: false,
       taskItems: [],
     }
   }
@@ -62,14 +62,15 @@ class Category extends React.Component {
   handleNavigateTask(task) {
     const { navigate } = this.props.navigation
     this.props.setActiveTask(task)
-    navigate('Task', { task })
+    const refreshFn = this.renderItems
+    navigate('Task', { task, refreshFn })
   }
 
   componentDidMount() {
-    this.renderItems(false)
+    this.renderItems(this.state.tab)
   }
 
-  renderItems(check = 'All') {
+  renderItems(check = this.state.tab) {
     const tasks = this.props.category.tasks.filter(t => {
       if (check === 'All') {
         return t
