@@ -6,6 +6,7 @@ import Expo from 'expo'
 import ItemCategory from './ItemCategory'
 import AddCategory from './AddItem'
 import About from './About'
+import GoBack from './GoBack'
 import { uuid } from '../utils/functions'
 
 import { bindActionCreators } from 'redux'
@@ -121,6 +122,7 @@ class HomeScreen extends React.Component {
       if (!this.state.about) {
         return (
           <Container>
+            <GoBack navigation={this.props.navigation} />
             {this.state.new_cat && <AddCategory onSave={this.handleSaveCat} onReturnBack={this.handlePressNewCat} />}
             {categories}
             <Fab style={{ backgroundColor: '#5067FF' }} position="bottomRight" onPress={this.handlePressNewCat}>

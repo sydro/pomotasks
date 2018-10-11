@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, Container, Button } from 'native-base'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, BackHandler, DeviceEventEmitter } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import { connect } from 'react-redux'
@@ -24,6 +24,7 @@ class Task extends React.Component {
     this.startTimer = this.startTimer.bind(this)
     this.stopTimer = this.stopTimer.bind(this)
     this.handleRemoveSession = this.handleRemoveSession.bind(this)
+
     this.state = {
       fill: 0,
       running: false,
