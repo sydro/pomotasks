@@ -17,11 +17,15 @@ export default class AddCategory extends React.Component {
           <Input
             placeholder=""
             value={this.state.value}
+            autoFocus={true}
             onChangeText={value => {
               this.setState({ value })
             }}
             onSubmitEditing={this.props.onSave}
             style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+            ref={input => {
+              this.TextInput = input
+            }}
           />
         </Body>
         <Button transparent onPress={this.props.onReturnBack}>

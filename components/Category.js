@@ -1,5 +1,6 @@
 import React from 'react'
-import { Container, Fab, Icon } from 'native-base'
+import { Container, Content, Fab, Icon, Footer, FooterTab, Text, Button } from 'native-base'
+import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 import { addTask, delTask, setActiveTask, completeTask } from '../actions'
 import ItemTask from './ItemTask'
@@ -14,8 +15,12 @@ class Category extends React.Component {
     this.handleRemoveTask = this.handleRemoveTask.bind(this)
     this.handleNavigateTask = this.handleNavigateTask.bind(this)
     this.handleCompleteTask = this.handleCompleteTask.bind(this)
+    this.renderItems = this.renderItems.bind(this)
     this.state = {
       new_task: false,
+      taskItems: null,
+      tab: null,
+      taskItems: [],
     }
   }
 
@@ -32,22 +37,26 @@ class Category extends React.Component {
     }
   }
 
-  handleNewTask() {
+  async handleNewTask() {
     const new_task = !this.state.new_task
-    this.setState({ new_task })
+    await this.setState({ new_task, tab: false })
+    this.renderItems(this.state.tab)
   }
 
-  handleSaveTask(event) {
+  async handleSaveTask(event) {
     this.handleNewTask()
-    this.props.addTask(this.props.category, { name: event.nativeEvent.text, key: uuid() })
+    await this.props.addTask(this.props.category, { name: event.nativeEvent.text, key: uuid() })
+    this.renderItems(this.state.tab)
   }
 
-  handleRemoveTask(value) {
-    this.props.delTask(this.props.category, value)
+  async handleRemoveTask(value) {
+    await this.props.delTask(this.props.category, value)
+    this.renderItems(this.state.tab)
   }
 
-  handleCompleteTask(value) {
-    this.props.completeTask(this.props.category, value)
+  async handleCompleteTask(value) {
+    await this.props.completeTask(this.props.category, value)
+    this.renderItems(this.state.tab)
   }
 
   handleNavigateTask(task) {
@@ -56,26 +65,71 @@ class Category extends React.Component {
     navigate('Task', { task })
   }
 
-  render() {
-    const itemsTask = this.props.category.tasks.map(t => {
-      return (
-        <ItemTask
-          key={t.key}
-          task={t}
-          onRemoveTask={this.handleRemoveTask}
-          onCompleteTask={this.handleCompleteTask}
-          onNavigate={this.handleNavigateTask}
-        />
-      )
+  componentDidMount() {
+    this.renderItems(false)
+  }
+
+  renderItems(check = 'All') {
+    const tasks = this.props.category.tasks.filter(t => {
+      if (check === 'All') {
+        return t
+      } else {
+        if (t.complete === undefined && check === false) return t
+        if (t.complete === check) return t
+      }
     })
+    this.setState({ tab: check, taskItems: tasks })
+  }
+
+  render() {
     return (
-      <Container>
-        {itemsTask}
-        <Fab style={{ backgroundColor: '#5067FF' }} position="bottomRight" onPress={this.handleNewTask}>
+      <View style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 0.93, backgroundColor: 'white' }}>
+          {this.state.new_task && <AddTask onSave={this.handleSaveTask} onReturnBack={this.handleNewTask} />}
+          {this.state.taskItems.map(t => {
+            return (
+              <ItemTask
+                key={t.key}
+                task={t}
+                onRemoveTask={this.handleRemoveTask}
+                onCompleteTask={this.handleCompleteTask}
+                onNavigate={this.handleNavigateTask}
+              />
+            )
+          })}
+        </ScrollView>
+        <Footer style={{ flex: 0.07 }}>
+          <FooterTab>
+            <Button
+              active={this.state.tab === false}
+              warning={this.state.tab === false}
+              onPress={() => {
+                this.renderItems(false)
+              }}>
+              <Text>Open</Text>
+            </Button>
+            <Button
+              active={this.state.tab === true}
+              warning={this.state.tab === true}
+              onPress={() => {
+                this.renderItems(true)
+              }}>
+              <Text>Completed</Text>
+            </Button>
+            <Button
+              active={this.state.tab === 'All'}
+              warning={this.state.tab === 'All'}
+              onPress={() => {
+                this.renderItems('All')
+              }}>
+              <Text>All</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+        <Fab style={{ backgroundColor: '#5067FF', bottom: 20 }} position="bottomRight" onPress={this.handleNewTask}>
           <Icon name="add" />
         </Fab>
-        {this.state.new_task && <AddTask onSave={this.handleSaveTask} onReturnBack={this.handleNewTask} />}
-      </Container>
+      </View>
     )
   }
 }
