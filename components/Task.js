@@ -58,7 +58,10 @@ class Task extends React.Component {
       } else {
         fill = this.state.fill
       }
-      this.setState({ fill: fill + 1.67, seconds: this.state.seconds + 1 })
+      const now = Date.now()
+      const seconds = Math.floor((now - new_session.start) / 1000)
+      fill = (seconds % 60) * 1.67
+      this.setState({ fill, seconds })
     }, 1000)
   }
 
