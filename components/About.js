@@ -1,6 +1,7 @@
 import React from 'react'
-import { Container, Header, Content, Card, CardItem, Text, Body } from 'native-base'
+import { Container, Header, Content, Card, CardItem, Text, Left, Right } from 'native-base'
 import { Linking } from 'react-native'
+import Expo from 'expo'
 
 export default class About extends React.PureComponent {
   render() {
@@ -29,7 +30,18 @@ export default class About extends React.PureComponent {
               </Text>
             </CardItem>
             <CardItem footer bordered>
-              <Text>@sydro</Text>
+              <Left style={{ marginLeft: -10 }}>
+                <Text
+                  style={{ fontWeight: 'bold', color: 'blue' }}
+                  onPress={() => {
+                    Linking.openURL('https://github.com/sydro')
+                  }}>
+                  @sydro
+                </Text>
+              </Left>
+              <Right>
+                <Text>Version: {Expo.Constants.manifest.version}</Text>
+              </Right>
             </CardItem>
           </Card>
         </Content>
