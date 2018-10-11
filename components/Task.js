@@ -117,7 +117,7 @@ class Task extends React.Component {
               <Button
                 rounded
                 success={!this.state.running}
-                disabled={this.state.running}
+                disabled={this.state.running || this.props.task.complete}
                 style={styles.actionButton}
                 onPress={this.startTimer}>
                 <Text> Start </Text>
