@@ -1,0 +1,22 @@
+---
+language: node_js
+node_js:
+  - node
+  - lts/*
+cache:
+  directories:
+    - ~/.npm
+    - .jest
+before_script:
+  - npm install -g npm@latest
+script:
+  - npm ci
+jobs:
+  include:
+    - stage: deploy
+      node_js: lts/*
+      script:
+        - npm ci
+        - npm install -g expo-cli
+        - npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+        - expo build:android
