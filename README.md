@@ -7,7 +7,7 @@ This app was created by [create-react-native-app](https://github.com/react-commu
 ## Installation
 
 ```
-npm i
+yarn install
 ```
 
 ## Start
