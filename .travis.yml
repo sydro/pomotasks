@@ -4,19 +4,20 @@ node_js:
   - node
   - lts/*
 cache:
+  yarn: true
   directories:
     - ~/.npm
     - .jest
-before_script:
-  - npm install -g npm@latest
+# before_script:
+#   - npm install -g npm@latest
 script:
-  - npm ci
+  - yarn install
 jobs:
   include:
     - stage: deploy
       node_js: lts/*
       script:
-        - npm ci
-        - npm install -g expo-cli
-        - npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+        - yarn install
+        - yarn install -g expo-cli
+        - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
         - expo build:android
