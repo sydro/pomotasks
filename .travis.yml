@@ -18,6 +18,6 @@ jobs:
       node_js: lts/*
       script:
         - yarn install
-        - yarn install -g expo-cli
+        - yarn global add expo-cli
         - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
         - expo build:android
