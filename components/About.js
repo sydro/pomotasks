@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Header, Content, Card, CardItem, Text, Left, Right } from 'native-base'
 import { Linking } from 'react-native'
-import Expo from 'expo'
+import Constants from 'expo-constants'
 
 export default class About extends React.PureComponent {
   render() {
@@ -40,7 +40,7 @@ export default class About extends React.PureComponent {
                 </Text>
               </Left>
               <Right>
-                <Text>Version: {Expo.Constants.manifest.version}</Text>
+                <Text>Version: {Constants.manifest.version}</Text>
               </Right>
             </CardItem>
           </Card>
