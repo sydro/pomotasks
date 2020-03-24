@@ -1,5 +1,5 @@
 import React from 'react'
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 import { Container, Fab, Icon, Text, Body, Content, Header, Left, Right, Title, Button } from 'native-base'
 import { ActivityIndicator, View, StyleSheet, AsyncStorage } from 'react-native'
 import Expo from 'expo'
